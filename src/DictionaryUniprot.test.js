@@ -12,7 +12,6 @@ describe('DictionaryUniprot.js', () => {
     new DictionaryUniprot({ baseURL: testURLBase, log: true });
 
   const melanomaStr = 'melanoma';
-  const noResultsStr = 'somethingThatDoesNotExist';
 
   const get2IDsPath = path.join(__dirname, '..', 'resources', 'ids.tab');
   const getMelanomaPath = path.join(__dirname, '..', 'resources', 'melanoma.tab');
@@ -46,6 +45,24 @@ describe('DictionaryUniprot.js', () => {
             }
           ]
         });
+        cb();
+      });
+    });
+  });
+
+  describe('getEntryMatchesForString', () => {
+    it('returns proper formatted error', cb => {
+      nock(testURLBase)
+        .get('/?query=wrong&columns=id%2Ccomment%28FUNCTION%29%2Cprotein%20names%2Cgenes%2Corganism%2Creviewed%2Centry%20name%2Cannotation%20score&sort=score&limit=50&offset=0&format=tab')
+        .reply(404, 'Something is wrong!!!');
+
+      dict.getEntryMatchesForString('wrong', {}, (err, res) => {
+        err.should.deep.equal({
+          status: 404,
+          error: 'Something is wrong!!!'
+        });
+        expect(res).to.be.an('undefined');
+
         cb();
       });
     });
@@ -423,7 +440,7 @@ describe('DictionaryUniprot.js', () => {
       expect(dict.hasProperEntrySortProperty(options)).to.equal(true);
       options.sort = 'str';
       expect(dict.hasProperEntrySortProperty(options)).to.equal(true);
-      options.sort = noResultsStr;
+      options.sort = 'noResultsStr';
       expect(dict.hasProperEntrySortProperty(options)).to.equal(false);
 
       cb();

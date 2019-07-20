@@ -407,7 +407,11 @@ module.exports = class DictionaryUniprot extends Dictionary {
     const req = this.getReqObj();
     req.onreadystatechange = function () {
       if (req.readyState === 4) {
-        if (req.status !== 200) cb('Error: req.status = ' + req.status);
+        if (req.status !== 200) {
+          let err = '{ "status": ' + req.status
+            + ', "error": ' + '"' + req.responseText + '"}';
+          cb(JSON.parse(err));
+        }
         else {
           try {
             const response = req.responseText;
