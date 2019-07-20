@@ -10,10 +10,10 @@ const dict = new DictionaryUniprot({log: true});
 dict.getEntries({
   filter: {
     id: [
-      /*'https://www.uniprot.org/uniprot/P52413',
+      'https://www.uniprot.org/uniprot/P52413',
       'https://www.uniprot.org/uniprot/P53142',
       'https://www.uniprot.org/uniprot/P12345',
-      'https://www.uniprot.org/uniprot/P05067'*/
+      'https://www.uniprot.org/uniprot/P05067'
     ]},
   //sort: 'str',
   page: 1,
