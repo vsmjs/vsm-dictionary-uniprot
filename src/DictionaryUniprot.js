@@ -97,11 +97,20 @@ module.exports = class DictionaryUniprot extends Dictionary {
   }
 
   buildEntryURLs(options) {
+    let idList = [];
+
+    // remove empty space ids
     if (this.hasProperFilterIDProperty(options)) {
-      return options.filter.id.map(entryId =>
+      idList = options.filter.id.filter(id => id.trim() !== '');
+    }
+
+    if (idList.length !== 0) {
+      // specific IDs
+      return idList.map(entryId =>
         this.prepareEntrySearchURL(options, entryId)
       );
     } else {
+      // all IDs
       return [this.prepareEntrySearchURL(options, '')];
     }
   }
@@ -337,13 +346,6 @@ module.exports = class DictionaryUniprot extends Dictionary {
       return arr.sort((a, b) =>
         this.str_cmp(a.terms[0].str, b.terms[0].str)
         || this.str_cmp(a.id, b.id));
-  }
-
-  sortMatches(arr) {
-    return arr.sort((a, b) =>
-      this.str_cmp(a.type, b.type)
-      || this.str_cmp(a.str, b.str)
-      || this.str_cmp(a.dictID, b.dictID));
   }
 
   str_cmp(a, b, caseMatters = false) {

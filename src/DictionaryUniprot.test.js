@@ -57,16 +57,27 @@ describe('DictionaryUniprot.js', () => {
       const options2 = { filter: {}, sort: 'str' };
       const options3 = { filter: { id: [], dictID: '' }, sort: 'id', page: 2,
         perPage: 101 };
-      const options4 = { filter: { id: [
+      const options4 = { filter: { id: ['',''] }, sort: 'id', page: 2,
+        perPage: 101 };
+      const options5 = { filter: { id: [
+        'https://www.uniprot.org/uniprot/P12345',
+        'https://www.uniprot.org/uniprot/P53142',
+        'https://www.uniprot.org/uniprot/P52413'
+      ], dictID: '' }, sort: '', page: 1, perPage: 10 };
+      const options6 = { filter: { id: [
+        '', '      ',
         'https://www.uniprot.org/uniprot/P12345',
         'https://www.uniprot.org/uniprot/P53142',
         'https://www.uniprot.org/uniprot/P52413'
       ], dictID: '' }, sort: '', page: 1, perPage: 10 };
 
+
       const res1 = dict.buildEntryURLs(options1);
       const res2 = dict.buildEntryURLs(options2);
       const res3 = dict.buildEntryURLs(options3);
       const res4 = dict.buildEntryURLs(options4);
+      const res5 = dict.buildEntryURLs(options5);
+      const res6 = dict.buildEntryURLs(options6);
 
       const URLPart = '/?query=*&columns=id%2Ccomment%28FUNCTION%29%2Cprotein%20names%2Cgenes%2Corganism%2Creviewed%2Centry%20name%2Cannotation%20score&sort=id&desc=no';
       const expectedResult1 = [
@@ -87,7 +98,9 @@ describe('DictionaryUniprot.js', () => {
       res1.should.deep.equal(expectedResult1);
       res2.should.deep.equal(expectedResult2);
       res3.should.deep.equal(expectedResult3);
-      res4.should.deep.equal(expectedResult4);
+      res4.should.deep.equal(expectedResult3);
+      res5.should.deep.equal(expectedResult4);
+      res6.should.deep.equal(expectedResult4);
 
       cb();
     });
