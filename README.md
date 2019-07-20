@@ -43,8 +43,8 @@ To use a VsmDictionary in Node.js, one can simply run `npm install` and then
 use `require()`. But it is also convenient to have a version of the code that
 can just be loaded via a &lt;script&gt;-tag in the browser.
 
-Therefore, we included `webpack.config.js`, which is a Webpack configuration file for 
-generating such a browser-ready package.
+Therefore, we included `webpack.config.js`, which is a Webpack configuration 
+file for generating such a browser-ready package.
 
 By running `npm build`, the built file will appear in a 'dist' subfolder. 
 You can use it by including: 
@@ -94,7 +94,7 @@ https://www.uniprot.org/uniprot/?query=*&columns=id%2Ccomment%28FUNCTION%29%2Cpr
 ```
 
 Note that depending on the `options.page` and `options.perPage` options 
-we adjust the `limit` and `offset` parameters accordingly. The is no 
+we adjust the `limit` and `offset` parameters accordingly. There is no 
 maximum value for the `limit` parameter, but we chose a value of **50** to 
 use in case `perPage` is not defined properly (the default value for 
 `offset` is 0).
@@ -106,10 +106,9 @@ We then prune these results according to the values `options.page` (default: 1)
 and `options.perPage` (default: 50).
 
 At July 2019, Uniprot offered the results from its REST API in various formats 
-but not JSON :( We chose thus the tab-separated format as shown in the above queries
-(`&format=tab`).
-The returned tab-separated lines are mapped to VSM entries. The next table
-shows the exact mapping:
+but not JSON :( We chose thus the tab-separated format as shown in the above 
+queries (`&format=tab`). The returned tab-separated lines are mapped to VSM 
+entries. The next table shows the exact mapping:
 
 Uniprot column | Type | Required | VSM entry/match object property | Notes  
 :---:|:---:|:---:|:---:|:---:
@@ -133,12 +132,12 @@ when requesting for `tp53`, is:
 https://www.uniprot.org/uniprot/?query=tp53&columns=id%2Ccomment%28FUNCTION%29%2Cprotein%20names%2Cgenes%2Corganism%2Creviewed%2Centry%20name%2Cannotation%20score&sort=score&limit=20&offset=0&format=tab
 ```
 
-The columns requested are the same as in the `getEntries(options, cb)` 
-case as well as the mapping shown in the table above. 
-Queries requesting for string matches **always** return results sorted based on an internal, 
-Uniprot-specific score value (note the `sort=score` in the URL). This practically ensures that the most requested 
-and best-quality results will be the returned first and they are the 
-same as what you would expect when searching a term in the the main 
+The columns requested are the same as in the `getEntries(options, cb)` case as 
+well as the mapping shown in the table above. Queries requesting for string 
+matches **always** return results sorted based on an internal, Uniprot-specific 
+score value (note the `sort=score` in the URL). This practically ensures that 
+the most requested and best-quality results will be the ones returned first and 
+they are the same as what you would expect when searching a term in the the main 
 search box of the Uniprot website: `https://www.uniprot.org/uniprot/?query=tp53&sort=score`.
 
 For the `limit` and `offset` parameters the same things apply as in 
