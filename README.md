@@ -48,7 +48,7 @@ file for generating such a browser-ready package.
 
 By running `npm build`, the built file will appear in a 'dist' subfolder. 
 You can use it by including: 
-`<script src="../dist/vsm-dictionary-bioportal.min.js"></script>` in the
+`<script src="../dist/vsm-dictionary-uniprot.min.js"></script>` in the
 header of an HTML file. 
 
 ## Specification
