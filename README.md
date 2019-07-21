@@ -37,7 +37,7 @@ node getEntries.test.js
 node getEntryMatchesForString.test.js
 ```
 
-## 'Build' configuration & demo
+## 'Build' configuration
 
 To use a VsmDictionary in Node.js, one can simply run `npm install` and then
 use `require()`. But it is also convenient to have a version of the code that
@@ -48,7 +48,7 @@ file for generating such a browser-ready package.
 
 By running `npm build`, the built file will appear in a 'dist' subfolder. 
 You can use it by including: 
-`<script src="../dist/vsm-dictionary-bioportal.min.js"></script>` in the
+`<script src="../dist/vsm-dictionary-uniprot.min.js"></script>` in the
 header of an HTML file. 
 
 ## Specification
@@ -121,7 +121,7 @@ Uniprot column | Type | Required | VSM entry/match object property | Notes
 `Entry name` | String | YES | `z.entry` | A Uniprot-specific ID for the entry, e.g. `VPS73_YEAST`
 `Annotation` | String | NO | `z.score` | Annotation score, a quality index for the protein information (e.g. '4 out of 5')
 
-### Map BioPortal to Match VSM object
+### Map Uniprot to Match VSM object
 
 This specification relates to the function:  
  `getEntryMatchesForString(str, options, cb)`
