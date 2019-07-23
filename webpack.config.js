@@ -1,5 +1,5 @@
 /*
-This Webpack-config builds a version of VsmDictionaryBioPortal that can be
+This Webpack-config builds a version of VsmDictionaryUniprot that can be
 loaded in browsers, where it can be accessed as a global variable.
 */
 
