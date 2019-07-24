@@ -71,7 +71,7 @@ This specification relates to the function:
 
 Since `vsm-dictionary-uniprot` has only one sub-dictionary
 (it's a uni-dictionary!), `getDictInfos` returns a static object with properties:
-- `id`: https://www.uniprot.org (will be used as a `dictID`)
+- `id`: 'https://www.uniprot.org' (will be used as a `dictID`)
 - `abbrev`: 'UniProt'
 - `name`: 'Universal Protein Resource'
 
