@@ -69,16 +69,24 @@ links for the API are:
 This specification relates to the function:  
  `getDictInfos(options, cb)`
 
-Since `vsm-dictionary-uniprot` has only one sub-dictionary
-(it's a uni-dictionary!), `getDictInfos` returns a static object with properties:
+If the `options.filter.id` is not properly defined 
+or the `https://www.uniprot.org` dictID is included in the 
+list of ids used for filtering, `getDictInfos` returns a static object 
+with the following properties:
 - `id`: 'https://www.uniprot.org' (will be used as a `dictID`)
 - `abbrev`: 'UniProt'
 - `name`: 'Universal Protein Resource'
+
+Otherwise, an empty result is returned.
 
 ### Map Uniprot to Entry VSM object
 
 This specification relates to the function:  
  `getEntries(options, cb)`
+
+Firstly, if the `options.filter.dictID` is properly defined and in the list of 
+dictIDs the `https://www.uniprot.org` dictID is not included, then 
+an **empty array** of entry objects is returned.
 
 If the `options.filter.id` is properly defined (with IDs like
 `https://www.uniprot.org/uniprot/P12345`) then for each ID (in
@@ -126,8 +134,12 @@ Uniprot column | Type | Required | VSM entry/match object property | Notes
 This specification relates to the function:  
  `getEntryMatchesForString(str, options, cb)`
 
-An example of a URL string that is being built and send to Uniprot's REST API 
-when requesting for `tp53`, is:
+Firstly, if the `options.filter.dictID` is properly defined and in the list of 
+dictIDs the `https://www.uniprot.org` dictID is not included, then 
+an **empty array** of match objects is returned.
+
+Otherwise, an example of a URL string that is being built and send to Uniprot's 
+REST API when requesting for `tp53`, is:
 ```
 https://www.uniprot.org/uniprot/?query=tp53&columns=id%2Ccomment%28FUNCTION%29%2Cprotein%20names%2Cgenes%2Corganism%2Creviewed%2Centry%20name%2Cannotation%20score&sort=score&limit=20&offset=0&format=tab
 ```

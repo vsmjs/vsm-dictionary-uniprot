@@ -32,21 +32,66 @@ describe('DictionaryUniprot.js', () => {
   });
 
   describe('getDictInfos', () => {
-    it('returns proper Uniprot dictInfo object', cb => {
-
-      dict.getDictInfos({}, (err, res) => {
-        expect(err).to.be.null;
-        res.should.deep.equal({
-          items: [
-            {
-              id: 'https://www.uniprot.org',
-              abbrev: 'UniProt',
-              name: 'Universal Protein Resource'
-            }
-          ]
-        });
+    it('returns empty result when the list of dictIDs does not '
+      + ' include the domain\'s dictID', cb => {
+      dict.getDictInfos({ filter: { id: [
+        ' ',
+        'https://www.rnacentral.org',
+        'https://www.ensembl.org' ]}},
+      (err, res) => {
+        expect(err).to.equal(null);
+        res.should.deep.equal({ items: [] });
         cb();
       });
+    });
+
+    it('returns proper dictInfo object when `options.filter` is not properly ' +
+      'defined or the domain\'s dictID is in the list of specified dictIDs', cb => {
+      let expectedResult = { items: [
+        {
+          id: 'https://www.uniprot.org',
+          abbrev: 'UniProt',
+          name: 'Universal Protein Resource'
+        }
+      ]};
+
+      dict.getDictInfos({}, (err, res) => {
+        expect(err).to.equal(null);
+        res.should.deep.equal(expectedResult);
+      });
+
+      dict.getDictInfos({ filter: { id: [
+        ' ',
+        'https://www.uniprot.org',
+        'https://www.ebi.ac.uk/complexportal',
+        'https://www.ensembl.org' ]}},
+      (err, res) => {
+        expect(err).to.equal(null);
+        res.should.deep.equal(expectedResult);
+      });
+
+      cb();
+    });
+  });
+
+  describe('getEntries', () => {
+    it('returns empty result when the `options.filter.dictID` is properly ' +
+      'defined and in the list of dictIDs the domain\'s dictID is not included', cb => {
+      dict.getEntries({filter: { dictID: ['']}}, (err, res) => {
+        expect(err).to.equal(null);
+        res.should.deep.equal({ items: [] });
+      });
+
+      dict.getEntries({filter: { dictID: [
+        ' ',
+        'https://www.rnacentral.org',
+        'https://www.ensembl.org'
+      ]}}, (err, res) => {
+        expect(err).to.equal(null);
+        res.should.deep.equal({ items: [] });
+      });
+
+      cb();
     });
   });
 
@@ -65,6 +110,26 @@ describe('DictionaryUniprot.js', () => {
 
         cb();
       });
+    });
+
+    it('returns empty result when the `options.filter.dictID` is properly ' +
+      'defined and in the list of dictIDs the domain\'s dictID is not included', cb => {
+      dict.getEntryMatchesForString(melanomaStr, {filter: { dictID: ['']}},
+        (err, res) => {
+          expect(err).to.equal(null);
+          res.should.deep.equal({ items: [] });
+        });
+
+      dict.getEntryMatchesForString(melanomaStr, {filter: { dictID: [
+        ' ',
+        'https://www.rnacentral.org',
+        'https://www.ensembl.org']}},
+      (err, res) => {
+        expect(err).to.equal(null);
+        res.should.deep.equal({ items: [] });
+      });
+
+      cb();
     });
   });
 
