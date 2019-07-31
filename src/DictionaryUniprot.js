@@ -67,6 +67,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
     const urlArray = this.buildEntryURLs(options);
     let callsRemaining = urlArray.length;
     const urlToResultsMap = new Map();
+    let answered = false;
 
     for (let url of urlArray) {
       if (this.enableLogging)
@@ -75,8 +76,15 @@ module.exports = class DictionaryUniprot extends Dictionary {
       urlToResultsMap.set(url, []);
 
       this.request(url, (err, res) => {
-        if (err) return cb(err);
-        urlToResultsMap.set(url, this.mapUniprotResToEntryObj(res, options));
+        if (err) {
+          if (!answered) {
+            answered = true;
+            --callsRemaining;
+            return cb(err);
+          }
+        } else {
+          urlToResultsMap.set(url, this.mapUniprotResToEntryObj(res, options));
+        }
 
         --callsRemaining;
         // all calls have returned, so sort and trim results
@@ -86,7 +94,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
           for (let entryObjArray of urlToResultsMap.values())
             arr = arr.concat(entryObjArray);
 
-          // When requesting specific list of ids, do sorting and triming
+          // When requesting specific list of ids, do sorting and trimming
           if (this.hasProperFilterIDProperty(options)) {
             arr = this.trimEntryObjArray(
               this.sortEntries(arr, options), options
@@ -96,7 +104,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
           // z-prune results
           arr = Dictionary.zPropPrune(arr, options.z);
 
-          cb(err, { items: arr });
+          if (!answered) cb(err, { items: arr });
         }
       });
     }
@@ -452,7 +460,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
       if (req.readyState === 4) {
         if (req.status !== 200) {
           let err = '{ "status": ' + req.status
-            + ', "error": ' + '"' + req.responseText + '"}';
+            + ', "error": ' + JSON.stringify(req.responseText) + '}';
           cb(JSON.parse(err));
         }
         else {
