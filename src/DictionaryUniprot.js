@@ -8,6 +8,11 @@ module.exports = class DictionaryUniprot extends Dictionary {
     const opt = options || {};
     super(opt);
 
+    // optimized mapping for curator's
+    this.optimap = (typeof opt.optimap === 'boolean')
+      ? opt.optimap
+      : true;
+
     // Uniprot-specific parameters
     this.uniprotDictID = 'https://www.uniprot.org';
     this.uniprotURLPreffix = this.uniprotDictID + '/uniprot';
@@ -258,8 +263,8 @@ module.exports = class DictionaryUniprot extends Dictionary {
     const entryName       = columns[6];
     const annotationScore = columns[7];
 
-    const mainTerm = getStringBeforeFirstSeparator(proteinNames, '(');
-    const synonyms = getElementsInParentheses(proteinNames);
+    const firstSynonym = getStringBeforeFirstSeparator(proteinNames, '(');
+    const otherSynonyms = getElementsInParentheses(proteinNames);
 
     return {
       id: this.uniprotURLPreffix + '/' + uniprotID,
@@ -269,7 +274,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
           descr: this.refineDescriptionStr(description)
         }
       ),
-      terms: this.buildTerms(mainTerm, synonyms),
+      terms: this.buildTerms(firstSynonym, otherSynonyms, entryName),
       z: {
         ...((genes !== '')
           && {
@@ -311,8 +316,11 @@ module.exports = class DictionaryUniprot extends Dictionary {
     const annotationScore = columns[7];
 
     // hopefully never empty
-    const mainTerm = getStringBeforeFirstSeparator(proteinNames, '(');
-    const synonyms = getElementsInParentheses(proteinNames);
+    const firstSynonym = getStringBeforeFirstSeparator(proteinNames, '(');
+    const otherSynonyms = getElementsInParentheses(proteinNames);
+    const mainTerm = (this.optimap && entryName !== '')
+      ? entryName
+      : firstSynonym;
 
     return {
       id: this.uniprotURLPreffix + '/' + uniprotID,
@@ -324,7 +332,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
         }
       ),
       type: mainTerm.startsWith(str) ? 'S' : 'T',
-      terms: this.buildTerms(mainTerm, synonyms),
+      terms: this.buildTerms(firstSynonym, otherSynonyms, entryName),
       z: {
         ...((genes !== '')
           && {
@@ -368,12 +376,16 @@ module.exports = class DictionaryUniprot extends Dictionary {
     return str.split(' ');
   }
 
-  buildTerms(mainTerm, synonyms) {
+  buildTerms(firstSynonym, otherSynonyms, entryName) {
     let res = [];
 
-    res.push({ str: mainTerm });
+    if (this.optimap && entryName !== '') {
+      res.push({ str: entryName});
+    }
 
-    for (let synonym of synonyms) {
+    res.push({ str: firstSynonym });
+
+    for (let synonym of otherSynonyms) {
       res.push({ str: synonym });
     }
 

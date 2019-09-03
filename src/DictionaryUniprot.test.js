@@ -9,7 +9,9 @@ describe('DictionaryUniprot.js', () => {
 
   const testURLBase = 'http://test';
   const dict =
-    new DictionaryUniprot({ baseURL: testURLBase, log: true });
+    new DictionaryUniprot({ baseURL: testURLBase, log: true, optimap: false });
+  const dictOptimized =
+    new DictionaryUniprot({ baseURL: testURLBase, log: true }); // optimap: true
 
   const melanomaStr = 'melanoma';
 
@@ -238,6 +240,59 @@ describe('DictionaryUniprot.js', () => {
         }]
       );
 
+      dictOptimized.mapUniprotResToEntryObj(getIDsStr).should.deep.equal(
+        [{
+          id: 'https://www.uniprot.org/uniprot/P52413',
+          dictID: 'https://www.uniprot.org',
+          descr: 'Carrier of the growing fatty acid chain in fatty acid biosynthesis.',
+          terms: [
+            {
+              str: 'ACP3_CUPLA'
+            },
+            {
+              str: 'Acyl carrier protein 3, chloroplastic'
+            },
+            {
+              str: 'ACP'
+            }
+          ],
+          z: {
+            genes: [
+              'ACL1.3',
+              'ACP1-3'
+            ],
+            species: 'Cuphea lanceolata (Cigar flower)',
+            status: 'reviewed',
+            entry: 'ACP3_CUPLA',
+            score: '3 out of 5',
+          }
+        },
+        {
+          id: 'https://www.uniprot.org/uniprot/P53142',
+          dictID: 'https://www.uniprot.org',
+          descr: 'May be involved in vacuolar protein sorting. {ECO:0000269|PubMed:12134085}.',
+          terms: [
+            {
+              str: 'VPS73_YEAST'
+            },
+            {
+              str: 'Vacuolar protein sorting-associated protein 73'
+            }
+          ],
+          z: {
+            genes: [
+              'VPS73',
+              'YGL104C',
+              'G3090'
+            ],
+            species: 'Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker\'s yeast)',
+            status: 'reviewed',
+            entry: 'VPS73_YEAST',
+            score: '3 out of 5',
+          }
+        }]
+      );
+
       cb();
     });
   });
@@ -294,6 +349,87 @@ describe('DictionaryUniprot.js', () => {
             descr: 'Proteoglycan playing a role in cell proliferation and migration which stimulates endothelial cells motility during microvascular morphogenesis. May also inhibit neurite outgrowth and growth cone collapse during axon regeneration. Cell surface receptor for collagen alpha 2(VI) which may confer cells ability to migrate on that substrate. Binds through its extracellular N-terminus growth factors, extracellular matrix proteases modulating their activity. May regulate MPP16-dependent degradation and invasion of type I collagen participating in melanoma cells invasion properties. May modulate the plasminogen system by enhancing plasminogen activation and inhibiting angiostatin. Functions also as a signal transducing protein by binding through its cytoplasmic C-terminus scaffolding and signaling proteins. May promote retraction fiber formation and cell polarization through Rho GTPase activation. May stimulate alpha-4, beta-1 integrin-mediated adhesion and spreading by recruiting and activating a signaling cascade through CDC42, ACK1 and BCAR1. May activate FAK and ERK1/ERK2 signaling cascades. {ECO:0000269|PubMed:10587647, ECO:0000269|PubMed:11278606, ECO:0000269|PubMed:15210734}.',
             type: 'T',
             terms: [
+              {
+                str: 'Chondroitin sulfate proteoglycan 4'
+              },
+              {
+                str: 'Chondroitin sulfate proteoglycan NG2'
+              },
+              {
+                str: 'Melanoma chondroitin sulfate proteoglycan'
+              },
+              {
+                str: 'Melanoma-associated chondroitin sulfate proteoglycan'
+              }
+            ],
+            z: {
+              genes: [
+                'CSPG4',
+                'MCSP'
+              ],
+              species: 'Homo sapiens (Human)',
+              status: 'reviewed',
+              entry: 'CSPG4_HUMAN',
+              score: '5 out of 5'
+            }
+          }
+        ]);
+
+      dictOptimized.mapUniprotResToMatchObj(getMatchesForMelanomaStr, 'melanoma')
+        .should.deep.equal([
+          {
+            id: 'https://www.uniprot.org/uniprot/P43121',
+            dictID: 'https://www.uniprot.org',
+            str: 'MUC18_HUMAN',
+            descr: 'Plays a role in cell adhesion, and in cohesion of the endothelial monolayer at intercellular junctions in vascular tissue. Its expression may allow melanoma cells to interact with cellular elements of the vascular system, thereby enhancing hematogeneous tumor spread. Could be an adhesion molecule active in neural crest cells during embryonic development. Acts as surface receptor that triggers tyrosine phosphorylation of FYN and PTK2/FAK1, and a transient increase in the intracellular calcium concentration. {ECO:0000269|PubMed:11036077, ECO:0000269|PubMed:8292890}.',
+            type: 'T',
+            terms: [
+              {
+                str: 'MUC18_HUMAN'
+              },
+              {
+                str: 'Cell surface glycoprotein MUC18'
+              },
+              {
+                str: 'Cell surface glycoprotein P1H12'
+              },
+              {
+                str: 'Melanoma cell adhesion molecule'
+              },
+              {
+                str: 'Melanoma-associated antigen A32'
+              },
+              {
+                str: 'Melanoma-associated antigen MUC18'
+              },
+              {
+                str: 'S-endo 1 endothelial-associated antigen'
+              },
+              {
+                str: 'CD antigen CD146'
+              }
+            ],
+            z: {
+              genes: [
+                'MCAM',
+                'MUC18'
+              ],
+              species: 'Homo sapiens (Human)',
+              status: 'reviewed',
+              entry: 'MUC18_HUMAN',
+              score: '5 out of 5'
+            }
+          },
+          {
+            id: 'https://www.uniprot.org/uniprot/Q6UVK1',
+            dictID: 'https://www.uniprot.org',
+            str: 'CSPG4_HUMAN',
+            descr: 'Proteoglycan playing a role in cell proliferation and migration which stimulates endothelial cells motility during microvascular morphogenesis. May also inhibit neurite outgrowth and growth cone collapse during axon regeneration. Cell surface receptor for collagen alpha 2(VI) which may confer cells ability to migrate on that substrate. Binds through its extracellular N-terminus growth factors, extracellular matrix proteases modulating their activity. May regulate MPP16-dependent degradation and invasion of type I collagen participating in melanoma cells invasion properties. May modulate the plasminogen system by enhancing plasminogen activation and inhibiting angiostatin. Functions also as a signal transducing protein by binding through its cytoplasmic C-terminus scaffolding and signaling proteins. May promote retraction fiber formation and cell polarization through Rho GTPase activation. May stimulate alpha-4, beta-1 integrin-mediated adhesion and spreading by recruiting and activating a signaling cascade through CDC42, ACK1 and BCAR1. May activate FAK and ERK1/ERK2 signaling cascades. {ECO:0000269|PubMed:10587647, ECO:0000269|PubMed:11278606, ECO:0000269|PubMed:15210734}.',
+            type: 'T',
+            terms: [
+              {
+                str: 'CSPG4_HUMAN'
+              },
               {
                 str: 'Chondroitin sulfate proteoglycan 4'
               },
