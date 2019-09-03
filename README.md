@@ -129,6 +129,16 @@ Uniprot column | Type | Required | VSM entry/match object property | Notes
 `Entry name` | String | YES | `z.entry` | A Uniprot-specific ID for the entry, e.g. `VPS73_YEAST`
 `Annotation` | String | NO | `z.score` | Annotation score, a quality index for the protein information (e.g. '4 out of 5')
 
+Note that the above mapping describes what we as developers thought as the most
+reasonable. There is though a global option `optimap` that you can pass to the 
+`DictionaryUniprot` object, which optimizes the above mapping for curator clarity
+and use. The **default value is true** and what it changes in the mapping table
+above (which is the mapping for `optimap: false` actually) is that the VSM's `str` 
+entry/match object property takes the value of the `Entry name`. The reason behind 
+this is that the `Entry name` is always different for every returned result (Uniprot's
+internal id) and thus distinguishable, whereas in the original mapping the first 
+protein name (which was used as `str`) was not. 
+
 ### Map Uniprot to Match VSM object
 
 This specification relates to the function:  
