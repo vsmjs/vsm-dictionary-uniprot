@@ -8,7 +8,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
     const opt = options || {};
     super(opt);
 
-    // optimized mapping for curator's
+    // optimized mapping for curators
     this.optimap = (typeof opt.optimap === 'boolean')
       ? opt.optimap
       : true;
