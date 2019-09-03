@@ -1,6 +1,6 @@
 {
   "name": "vsm-dictionary-uniprot",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Implementation of a VSM-dictionary that interfaces with the Uniprot REST API",
   "main": "src/DictionaryUniprot.js",
   "scripts": {
