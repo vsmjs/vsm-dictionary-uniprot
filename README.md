@@ -137,7 +137,7 @@ above (which is the mapping for `optimap: false` actually) is that the VSM's `st
 entry/match object property takes the value of the `Entry name`. The reason behind 
 this is that the `Entry name` is always different for every returned result (Uniprot's
 internal id) and thus distinguishable, whereas in the original mapping the first 
-protein name (which was used as `str`) was not. 
+protein name (which was used as `str`) is not. 
 
 ### Map Uniprot to Match VSM object
 
