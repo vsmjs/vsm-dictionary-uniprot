@@ -132,7 +132,7 @@ Uniprot column | Type | Required | VSM entry/match object property | Notes
 Note that the above mapping describes what we as developers thought as the most
 reasonable. There is though a global option `optimap` that you can pass to the 
 `DictionaryUniprot` object, which optimizes the above mapping for curator clarity
-and use. The **default value is true** and what it changes in the mapping table
+and use. The **default value is true** and what changes in the mapping table
 above (which is the mapping for `optimap: false` actually) is that the VSM's `str` 
 entry/match object property takes the value of the `Entry name`. The reason behind 
 this is that the `Entry name` is always different for every returned result (Uniprot's
