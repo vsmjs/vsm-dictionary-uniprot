@@ -35,7 +35,7 @@ describe('DictionaryUniprot.js', () => {
 
   describe('getDictInfos', () => {
     it('returns empty result when the list of dictIDs does not '
-      + ' include the domain\'s dictID', cb => {
+      + 'include the domain\'s dictID', cb => {
       dict.getDictInfos({ filter: { id: [
         ' ',
         'https://www.rnacentral.org',

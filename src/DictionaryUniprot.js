@@ -44,29 +44,16 @@ module.exports = class DictionaryUniprot extends Dictionary {
     if (!this.hasProperFilterIDProperty(options)) {
       return cb(null, res);
     } else {
-      // keep only the domain-specific dictID(s)
-      let idList = options.filter.id.filter(dictID =>
-        dictID.trim() === this.uniprotDictID
-      );
-
-      if (idList.length === 0) {
-        return cb(null, { items: [] });
-      } else {
-        return cb(null, res);
-      }
+      return (options.filter.id.includes(this.uniprotDictID))
+        ? cb(null, res)
+        : cb(null, { items: [] });
     }
   }
 
   getEntries(options, cb) {
-    if (this.hasProperFilterDictIDProperty(options)) {
-      // keep only the domain-specific dictID(s)
-      let idList = options.filter.dictID.filter(dictID =>
-        dictID.trim() === this.uniprotDictID
-      );
-
-      if (idList.length === 0) {
-        return cb(null, { items: [] });
-      }
+    if (this.hasProperFilterDictIDProperty(options)
+      && !options.filter.dictID.includes(this.uniprotDictID)) {
+      return cb(null, { items: [] });
     }
 
     const urlArray = this.buildEntryURLs(options);
@@ -116,17 +103,11 @@ module.exports = class DictionaryUniprot extends Dictionary {
   }
 
   getEntryMatchesForString(str, options, cb) {
-    if (!str) return cb(null, {items: []});
+    if ((!str) || (str.trim() === '')) return cb(null, {items: []});
 
-    if (this.hasProperFilterDictIDProperty(options)) {
-      // keep only the domain-specific dictID(s)
-      let idList = options.filter.dictID.filter(dictID =>
-        dictID.trim() === this.uniprotDictID
-      );
-
-      if (idList.length === 0) {
-        return cb(null, { items: [] });
-      }
+    if (this.hasProperFilterDictIDProperty(options)
+      && !options.filter.dictID.includes(this.pubMedDictID)) {
+      return cb(null, { items: [] });
     }
 
     const url = this.prepareMatchStringSearchURL(str, options);
