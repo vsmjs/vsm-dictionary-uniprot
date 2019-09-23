@@ -1,5 +1,5 @@
 module.exports = { getLastPartOfURL, fixedEncodeURIComponent,
-  getElementsInParentheses, getStringBeforeFirstSeparator };
+  getElementsInParentheses, getStringBeforeFirstSeparator, isJSONString };
 
 function getLastPartOfURL(entryId) {
   return entryId.split('/').pop();
@@ -27,4 +27,13 @@ function getElementsInParentheses(str) {
 
 function getStringBeforeFirstSeparator(str, sep) {
   return str.split(sep)[0].trim();
+}
+
+function isJSONString(str) {
+  try {
+    let json = JSON.parse(str);
+    return (json && typeof json === 'object');
+  } catch (e) {
+    return false;
+  }
 }

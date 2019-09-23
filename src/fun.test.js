@@ -1,8 +1,14 @@
 const { getLastPartOfURL, fixedEncodeURIComponent, getElementsInParentheses,
-  getStringBeforeFirstSeparator } = require('./fun');
+  getStringBeforeFirstSeparator, isJSONString } = require('./fun');
 const chai = require('chai'); chai.should();
+const expect = chai.expect;
+const fs = require('fs');
+const path = require('path');
 
 describe('fun.js', () => {
+
+  const getExamplePath = path.join(__dirname, '..', 'resources', 'example.json');
+  const getExampleStr = fs.readFileSync(getExamplePath, 'utf8');
 
   describe('getLastPartOfURL', () => {
     it('returns the last part of a URL', cb => {
@@ -67,6 +73,22 @@ describe('fun.js', () => {
         .should.equal('Aspartate aminotransferase, mitochondrial');
       getStringBeforeFirstSeparator('E (ER) [E R (ERT]', '[').should.equal('E (ER)');
       getStringBeforeFirstSeparator('A R (ER R); E (R)', ';').should.equal('A R (ER R)');
+
+      cb();
+    });
+  });
+
+  describe('isJSONString', () => {
+    it('returns true or false whether the given string is a JSON string or ' +
+      'not!', cb => {
+      expect(isJSONString('')).to.equal(false);
+      expect(isJSONString([])).to.equal(false);
+      expect(isJSONString({})).to.equal(false);
+      expect(isJSONString('{}')).to.equal(true);
+      expect(isJSONString('This is not a JSON string.')).to.equal(false);
+      expect(isJSONString('["foo","bar",{"foo":"bar"}]')).to.equal(true);
+      expect(isJSONString('{"myCount": null}')).to.equal(true);
+      expect(isJSONString(getExampleStr)).to.equal(true);
 
       cb();
     });

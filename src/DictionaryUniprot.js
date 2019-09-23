@@ -1,6 +1,6 @@
 const Dictionary = require('vsm-dictionary');
 const { getLastPartOfURL, fixedEncodeURIComponent, getElementsInParentheses,
-  getStringBeforeFirstSeparator } = require('./fun');
+  getStringBeforeFirstSeparator, isJSONString } = require('./fun');
 
 module.exports = class DictionaryUniprot extends Dictionary {
 
@@ -452,9 +452,14 @@ module.exports = class DictionaryUniprot extends Dictionary {
     req.onreadystatechange = function () {
       if (req.readyState === 4) {
         if (req.status !== 200) {
-          let err = '{ "status": ' + req.status
-            + ', "error": ' + JSON.stringify(req.responseText) + '}';
-          cb(JSON.parse(err));
+          let response = req.responseText;
+          if (isJSONString(response)) {
+            cb(JSON.parse(response));
+          } else {
+            let err = '{ "status": ' + req.status
+              + ', "error": ' + JSON.stringify(response) + '}';
+            cb(JSON.parse(err));
+          }
         }
         else {
           try {
