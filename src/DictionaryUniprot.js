@@ -106,7 +106,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
     if ((!str) || (str.trim() === '')) return cb(null, {items: []});
 
     if (this.hasProperFilterDictIDProperty(options)
-      && !options.filter.dictID.includes(this.pubMedDictID)) {
+      && !options.filter.dictID.includes(this.uniprotDictID)) {
       return cb(null, { items: [] });
     }
 
