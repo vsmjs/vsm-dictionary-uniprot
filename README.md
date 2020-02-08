@@ -187,3 +187,7 @@ search box of the Uniprot website: `https://www.uniprot.org/uniprot/?query=tp53&
 For the `limit` and `offset` parameters the same things apply as in 
 the `getEntries` specification. No sorting whatsoever is done on the client
 after the results are returned from Uniprot's REST API. 
+
+## License
+
+This project is licensed under the AGPL license - see [LICENSE.md](LICENSE.md).
