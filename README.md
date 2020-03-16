@@ -1,7 +1,7 @@
 # vsm-dictionary-uniprot
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/vsmjs/vsm-dictionary-uniprot.svg?branch=master)](https://travis-ci.org/vsmjs/vsm-dictionary-uniprot)
+[![Build Status](https://travis-ci.com/UniBioDicts/vsm-dictionary-uniprot.svg?branch=master)](https://travis-ci.com/UniBioDicts/vsm-dictionary-uniprot)
 [![npm version](https://img.shields.io/npm/v/vsm-dictionary-uniprot)](https://www.npmjs.com/package/vsm-dictionary-uniprot)
 [![Downloads](https://img.shields.io/npm/dm/vsm-dictionary-uniprot)](https://www.npmjs.com/package/vsm-dictionary-uniprot)
 <!-- badges: end -->
