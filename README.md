@@ -14,6 +14,10 @@ of the 'VsmDictionary' parent-class/interface (from the package
 communicates with [UniProt's](https://www.uniprot.org) 
 REST API and translates the provided protein data into a VSM-specific format.
 
+## Install
+
+Run: `npm install`
+
 ## Example use
 
 Create a `test.js` file and include this code:
