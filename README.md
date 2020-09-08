@@ -12,7 +12,7 @@
 
 `vsm-dictionary-uniprot` is an implementation 
 of the 'VsmDictionary' parent-class/interface (from the package
-[`vsm-dictionary`](https://github.com/vsmjs/vsm-dictionary)), that
+[`vsm-dictionary`](https://github.com/vsm/vsm-dictionary)), that
 communicates with [UniProt's](https://www.uniprot.org) 
 REST API and translates the provided protein data into a VSM-specific format.
 
@@ -67,7 +67,7 @@ header of an HTML file.
 
 Like all VsmDictionary subclass implementations, this package follows
 the parent class
-[specification](https://github.com/vsmjs/vsm-dictionary/blob/master/Dictionary.spec.md).
+[specification](https://github.com/vsm/vsm-dictionary/blob/master/Dictionary.spec.md).
 In the next sections we will explain the mapping between the data 
 offered by Uniprot's API and the corresponding VSM objects. Useful
 links for the API are: 
