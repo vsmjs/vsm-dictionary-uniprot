@@ -22,10 +22,11 @@ Run: `npm install`
 
 ## Example use
 
-Create a `test.js` file and include this code:
+Create a directory `test-dir` and inside run `npm install vsm-dictionary-uniprot`.
+Then, create a `test.js` file and include this code:
 
 ```javascript
-const DictionaryUniprot = require('./DictionaryUniprot');
+const DictionaryUniprot = require('vsm-dictionary-uniprot');
 const dict = new DictionaryUniprot({log: true});
 
 dict.getEntryMatchesForString('tp53', { page: 1, perPage: 10 }, 
@@ -38,6 +39,13 @@ dict.getEntryMatchesForString('tp53', { page: 1, perPage: 10 },
 );
 ```
 Then, run `node test.js`
+
+### Browsers
+
+```html
+<script src="https://unpkg.com/vsm-dictionary-uniprot@^1.0.0/dist/vsm-dictionary-uniprot.min.js"></script>
+```
+after which it is accessible as the global variable `VsmDictionaryUniprot`.
 
 ## Tests
 
