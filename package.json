@@ -1,8 +1,8 @@
 {
   "name": "vsm-dictionary-uniprot",
   "version": "1.0.14",
-  "description": "Implementation of a VSM-dictionary that interfaces with the Uniprot REST API",
-  "main": "src/DictionaryUniprot.js",
+  "description": "Implementation of a VSM-dictionary that interfaces with the UniProt REST API",
+  "main": "src/DictionaryUniProt.js",
   "scripts": {
     "lint": "eslint src test",
     "test": "nyc --reporter=lcov mocha \"src/**/*.test.js\" --check-leaks",

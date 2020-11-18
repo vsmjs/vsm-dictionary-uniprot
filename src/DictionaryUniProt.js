@@ -2,7 +2,7 @@ const Dictionary = require('vsm-dictionary');
 const { getLastPartOfURL, fixedEncodeURIComponent, getElementsInParentheses,
   getStringBeforeFirstSeparator, isJSONString } = require('./fun');
 
-module.exports = class DictionaryUniprot extends Dictionary {
+module.exports = class DictionaryUniProt extends Dictionary {
 
   constructor(options) {
     const opt = options || {};
@@ -13,7 +13,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
       ? opt.optimap
       : true;
 
-    // Uniprot-specific parameters
+    // UniProt-specific parameters
     this.uniprotDictID = 'https://www.uniprot.org';
     this.uniprotURLPreffix = this.uniprotDictID + '/uniprot';
     this.uniprotColumns = 'id,comment(FUNCTION),protein names,genes,organism,reviewed,entry name,annotation score';
@@ -75,7 +75,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
             return cb(err);
           }
         } else {
-          urlToResultsMap.set(url, this.mapUniprotResToEntryObj(res, options));
+          urlToResultsMap.set(url, this.mapUniProtResToEntryObj(res, options));
         }
 
         --callsRemaining;
@@ -117,7 +117,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
 
     this.request(url, (err, res) => {
       if (err) return cb(err);
-      let matchObjArray = this.mapUniprotResToMatchObj(res, str);
+      let matchObjArray = this.mapUniProtResToMatchObj(res, str);
 
       // z-prune results
       let arr = Dictionary.zPropPrune(matchObjArray, options.z);
@@ -145,7 +145,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
     }
   }
 
-  mapUniprotResToEntryObj(res) {
+  mapUniProtResToEntryObj(res) {
     let lines = res.split('\n');
     // remove header and last empty line
     lines = lines.slice(1, lines.length - 1);
@@ -153,13 +153,13 @@ module.exports = class DictionaryUniprot extends Dictionary {
     res = [];
     for (let line of lines) {
       let columns = line.split('\t');
-      res.push(this.mapUniprotColumnsToEntryObj(columns));
+      res.push(this.mapUniProtColumnsToEntryObj(columns));
     }
 
     return res;
   }
 
-  mapUniprotResToMatchObj(res, str) {
+  mapUniProtResToMatchObj(res, str) {
     let lines = res.split('\n');
     // remove header and last empty line
     lines = lines.slice(1, lines.length - 1);
@@ -167,7 +167,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
     res = [];
     for (let line of lines) {
       let columns = line.split('\t');
-      res.push(this.mapUniprotColumnsToMatchObj(columns, str));
+      res.push(this.mapUniProtColumnsToMatchObj(columns, str));
     }
 
     return res;
@@ -234,7 +234,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
     return url;
   }
 
-  mapUniprotColumnsToEntryObj(columns) {
+  mapUniProtColumnsToEntryObj(columns) {
     const uniprotID       = columns[0];
     const description     = columns[1];
     const proteinNames    = columns[2];
@@ -286,7 +286,7 @@ module.exports = class DictionaryUniprot extends Dictionary {
     };
   }
 
-  mapUniprotColumnsToMatchObj(columns, str) {
+  mapUniProtColumnsToMatchObj(columns, str) {
     const uniprotID       = columns[0];
     const description     = columns[1];
     const proteinNames    = columns[2];

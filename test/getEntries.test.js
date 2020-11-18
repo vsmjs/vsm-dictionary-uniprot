@@ -1,11 +1,11 @@
 /**
  * File used to quick test the `getEntries` function of
- * `DictionaryUniprot.js`
+ * `DictionaryUniProt.js`
  */
 
-const DictionaryUniprot = require('../src/DictionaryUniprot');
+const DictionaryUniProt = require('../src/DictionaryUniProt');
 
-const dict = new DictionaryUniprot({log: true});
+const dict = new DictionaryUniProt({log: true});
 
 dict.getEntries({
   filter: {

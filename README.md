@@ -26,8 +26,8 @@ Create a directory `test-dir` and inside run `npm install vsm-dictionary-uniprot
 Then, create a `test.js` file and include this code:
 
 ```javascript
-const DictionaryUniprot = require('vsm-dictionary-uniprot');
-const dict = new DictionaryUniprot({log: true});
+const DictionaryUniProt = require('vsm-dictionary-uniprot');
+const dict = new DictionaryUniProt({log: true});
 
 dict.getEntryMatchesForString('tp53', { page: 1, perPage: 10 }, 
   (err, res) => {
@@ -45,12 +45,12 @@ Then, run `node test.js`
 ```html
 <script src="https://unpkg.com/vsm-dictionary-uniprot@^1.0.0/dist/vsm-dictionary-uniprot.min.js"></script>
 ```
-after which it is accessible as the global variable `VsmDictionaryUniprot`.
+after which it is accessible as the global variable `VsmDictionaryUniProt`.
 
 ## Tests
 
 Run `npm test`, which runs the source code tests with Mocha.  
-If you want to quickly live test the Uniprot API, go to the 
+If you want to quickly live test the UniProt API, go to the 
 `test` directory and run:
 ```
 node getEntries.test.js
@@ -77,7 +77,7 @@ Like all VsmDictionary subclass implementations, this package follows
 the parent class
 [specification](https://github.com/vsm/vsm-dictionary/blob/master/Dictionary.spec.md).
 In the next sections we will explain the mapping between the data 
-offered by Uniprot's API and the corresponding VSM objects. Useful
+offered by UniProt's API and the corresponding VSM objects. Useful
 links for the API are: 
 - https://www.uniprot.org/help/query-fields
 - https://www.uniprot.org/help/uniprotkb_column_names
@@ -85,7 +85,7 @@ links for the API are:
 - https://www.uniprot.org/help/text-search
 
 Note also that we implement **strict error handling** in the sense that whenever 
-we launch multiple parallel queries to Uniprot's REST API (see the functions 
+we launch multiple parallel queries to UniProt's REST API (see the functions 
 specifications below), if one of them returns an error (either a string or an 
 error JSON object response), then the result will be an error object (no matter 
 if all the rest of the calls returned proper results). 
@@ -100,7 +100,7 @@ error as a JSON object ourselves in the following format:
 ```
 where the *response* from the server is JSON stringified.
 
-### Map Uniprot to DictInfo VSM object
+### Map UniProt to DictInfo VSM object
 
 This specification relates to the function:  
  `getDictInfos(options, cb)`
@@ -115,7 +115,7 @@ with the following properties:
 
 Otherwise, an empty result is returned.
 
-### Map Uniprot to Entry VSM object
+### Map UniProt to Entry VSM object
 
 This specification relates to the function:  
  `getEntries(options, cb)`
@@ -149,33 +149,33 @@ according to the specification of the parent 'VsmDictionary' class.
 We then prune these results according to the values `options.page` (default: 1)
 and `options.perPage` (default: 50).
 
-At July 2019, Uniprot offered the results from its REST API in various formats 
+At July 2019, UniProt offered the results from its REST API in various formats 
 but not JSON :( We chose thus the tab-separated format as shown in the above 
 queries (`&format=tab`). The returned tab-separated lines are mapped to VSM 
 entries. The next table shows the exact mapping:
 
-Uniprot column | Type | Required | VSM entry/match object property | Notes  
+UniProt column | Type | Required | VSM entry/match object property | Notes  
 :---:|:---:|:---:|:---:|:---:
-`Entry` | String | YES | `id` | the full URL of the Uniprot ID
+`Entry` | String | YES | `id` | the full URL of the UniProt ID
 `FUNCTION [CC]` | String | NO | `descr` | The protein's function
 `Protein names` | String | NO? | `str`,`terms[i].str` | Recommended and alternative names for the protein
 `Gene names` | String | NO | `z.genes` | An array of gene names
 `Organism` | String | NO | `z.species` | The organism this protein was found
 `Status` | String | NO | `z.status` | Is the protein information *reviewed*, *unreviewed*, *deleted* (obsolete), etc.
-`Entry name` | String | YES | `z.entry` | A Uniprot-specific ID for the entry, e.g. `VPS73_YEAST`
+`Entry name` | String | YES | `z.entry` | A UniProt-specific ID for the entry, e.g. `VPS73_YEAST`
 `Annotation` | String | NO | `z.score` | Annotation score, a quality index for the protein information (e.g. '4 out of 5')
 
 Note that the above mapping describes what we as developers thought as the most
 reasonable. There is though a global option `optimap` that you can pass to the 
-`DictionaryUniprot` object, which optimizes the above mapping for curator clarity
+`DictionaryUniProt` object, which optimizes the above mapping for curator clarity
 and use. The **default value is true** and what changes in the mapping table
 above (which is the mapping for `optimap: false` actually) is that the VSM's `str` 
 entry/match object property takes the value of the `Entry name`. The reason behind 
-this is that the `Entry name` is always different for every returned result (Uniprot's
+this is that the `Entry name` is always different for every returned result (UniProt's
 internal id) and thus distinguishable, whereas in the original mapping the first 
 protein name (which was used as `str`) is not. 
 
-### Map Uniprot to Match VSM object
+### Map UniProt to Match VSM object
 
 This specification relates to the function:  
  `getEntryMatchesForString(str, options, cb)`
@@ -184,7 +184,7 @@ Firstly, if the `options.filter.dictID` is properly defined and in the list of
 dictIDs the `https://www.uniprot.org` dictID is not included, then 
 an **empty array** of match objects is returned.
 
-Otherwise, an example of a URL string that is being built and send to Uniprot's 
+Otherwise, an example of a URL string that is being built and send to UniProt's 
 REST API when requesting for `tp53`, is:
 ```
 https://www.uniprot.org/uniprot/?query=tp53&columns=id%2Ccomment%28FUNCTION%29%2Cprotein%20names%2Cgenes%2Corganism%2Creviewed%2Centry%20name%2Cannotation%20score&sort=score&limit=20&offset=0&format=tab
@@ -192,15 +192,15 @@ https://www.uniprot.org/uniprot/?query=tp53&columns=id%2Ccomment%28FUNCTION%29%2
 
 The columns requested are the same as in the `getEntries(options, cb)` case as 
 well as the mapping shown in the table above. Queries requesting for string 
-matches **always** return results sorted based on an internal, Uniprot-specific 
+matches **always** return results sorted based on an internal, UniProt-specific 
 score value (note the `sort=score` in the URL). This practically ensures that 
 the most requested and best-quality results will be the ones returned first and 
 they are the same as what you would expect when searching a term in the the main 
-search box of the Uniprot website: `https://www.uniprot.org/uniprot/?query=tp53&sort=score`.
+search box of the UniProt website: `https://www.uniprot.org/uniprot/?query=tp53&sort=score`.
 
 For the `limit` and `offset` parameters the same things apply as in 
 the `getEntries` specification. No sorting whatsoever is done on the client
-after the results are returned from Uniprot's REST API. 
+after the results are returned from UniProt's REST API. 
 
 ## License
 

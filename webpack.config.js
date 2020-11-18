@@ -1,5 +1,5 @@
 /*
-This Webpack-config builds a version of VsmDictionaryUniprot that can be
+This Webpack-config builds a version of VsmDictionaryUniProt that can be
 loaded in browsers, where it can be accessed as a global variable.
 */
 
@@ -17,7 +17,7 @@ module.exports = () => ({
 
   mode: 'production',
 
-  entry: src + '/DictionaryUniprot.js',
+  entry: src + '/DictionaryUniProt.js',
 
   devtool: addSourceMap ? 'hidden-source-map' : false,
 
@@ -54,7 +54,7 @@ module.exports = () => ({
   output: {
     path: dist,
     filename: 'vsm-dictionary-uniprot.min.js',
-    library: 'VsmDictionaryUniprot',
+    library: 'VsmDictionaryUniProt',
     libraryTarget: 'var'
   }
 });

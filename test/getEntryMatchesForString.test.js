@@ -1,11 +1,11 @@
 /**
  * File used to quick test the `getEntryMatchesForString` function of
- * `DictionaryUniprot.js`
+ * `DictionaryUniProt.js`
  */
 
-const DictionaryUniprot = require('../src/DictionaryUniprot');
+const DictionaryUniProt = require('../src/DictionaryUniProt');
 
-const dict = new DictionaryUniprot({log: true});
+const dict = new DictionaryUniProt({log: true});
 
 dict.getEntryMatchesForString('tp53', { page: 1, perPage: 20 },
   (err, res) => {

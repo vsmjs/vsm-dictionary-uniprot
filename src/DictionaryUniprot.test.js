@@ -1,17 +1,17 @@
-const DictionaryUniprot = require('./DictionaryUniprot');
+const DictionaryUniProt = require('./DictionaryUniProt');
 const chai = require('chai'); chai.should();
 const expect = chai.expect;
 const nock = require('nock');
 const fs = require('fs');
 const path = require('path');
 
-describe('DictionaryUniprot.js', () => {
+describe('DictionaryUniProt.js', () => {
 
   const testURLBase = 'http://test';
   const dict =
-    new DictionaryUniprot({ baseURL: testURLBase, log: true, optimap: false });
+    new DictionaryUniProt({ baseURL: testURLBase, log: true, optimap: false });
   const dictOptimized =
-    new DictionaryUniprot({ baseURL: testURLBase, log: true }); // optimap: true
+    new DictionaryUniProt({ baseURL: testURLBase, log: true }); // optimap: true
 
   const melanomaStr = 'melanoma';
 
@@ -136,7 +136,7 @@ describe('DictionaryUniprot.js', () => {
   });
 
   describe('buildEntryURLs', () => {
-    it('returns proper array of URLs to send to Uniprot REST API', cb => {
+    it('returns proper array of URLs to send to UniProt REST API', cb => {
       const options1 = {};
       const options2 = { filter: {}, sort: 'str' };
       const options3 = { filter: { id: [], dictID: '' }, sort: 'id', page: 2,
@@ -190,10 +190,10 @@ describe('DictionaryUniprot.js', () => {
     });
   });
 
-  describe('mapUniprotResToEntryObj', () => {
-    it('properly maps Uniprot\'s tab-seperated lines to VSM entry '
+  describe('mapUniProtResToEntryObj', () => {
+    it('properly maps UniProt\'s tab-seperated lines to VSM entry '
       + 'objects', cb => {
-      dict.mapUniprotResToEntryObj(getIDsStr).should.deep.equal(
+      dict.mapUniProtResToEntryObj(getIDsStr).should.deep.equal(
         [{
           id: 'https://www.uniprot.org/uniprot/P52413',
           dictID: 'https://www.uniprot.org',
@@ -240,7 +240,7 @@ describe('DictionaryUniprot.js', () => {
         }]
       );
 
-      dictOptimized.mapUniprotResToEntryObj(getIDsStr).should.deep.equal(
+      dictOptimized.mapUniProtResToEntryObj(getIDsStr).should.deep.equal(
         [{
           id: 'https://www.uniprot.org/uniprot/P52413',
           dictID: 'https://www.uniprot.org',
@@ -297,10 +297,10 @@ describe('DictionaryUniprot.js', () => {
     });
   });
 
-  describe('mapUniprotResToMatchObj', () => {
-    it('properly maps Uniprot\'s tab-seperated lines to VSM match '
+  describe('mapUniProtResToMatchObj', () => {
+    it('properly maps UniProt\'s tab-seperated lines to VSM match '
       + 'objects', cb => {
-      dict.mapUniprotResToMatchObj(getMatchesForMelanomaStr, 'melanoma')
+      dict.mapUniProtResToMatchObj(getMatchesForMelanomaStr, 'melanoma')
         .should.deep.equal([
           {
             id: 'https://www.uniprot.org/uniprot/P43121',
@@ -375,7 +375,7 @@ describe('DictionaryUniprot.js', () => {
           }
         ]);
 
-      dictOptimized.mapUniprotResToMatchObj(getMatchesForMelanomaStr, 'melanoma')
+      dictOptimized.mapUniProtResToMatchObj(getMatchesForMelanomaStr, 'melanoma')
         .should.deep.equal([
           {
             id: 'https://www.uniprot.org/uniprot/P43121',
@@ -467,7 +467,7 @@ describe('DictionaryUniprot.js', () => {
       const url3 = dict.prepareEntrySearchURL({ sort: 'id', page: 2, perPage: 500 }, '');
       const url4 = dict.prepareEntrySearchURL({}, 'https://www.uniprot.org/uniprot/P12345');
       const url5 = dict.prepareEntrySearchURL({ page: 1, perPage: 2 }, 'https://www.uniprot.org/uniprot/Q7T2N5');
-      const url6 = dict.prepareEntrySearchURL({}, 'notAUniprotID');
+      const url6 = dict.prepareEntrySearchURL({}, 'notAUniProtID');
 
       const columnsURLPart = '&columns=id%2Ccomment%28FUNCTION%29%2Cprotein%20names%2Cgenes%2Corganism%2Creviewed%2Centry%20name%2Cannotation%20score';
       const expectedURL1 = testURLBase + '/?query=*' + columnsURLPart
@@ -480,7 +480,7 @@ describe('DictionaryUniprot.js', () => {
         + '&format=tab';
       const expectedURL5 = testURLBase + '/?query=id:Q7T2N5' + columnsURLPart
         + '&format=tab';
-      const expectedURL6 = testURLBase + '/?query=id:notAUniprotID' + columnsURLPart
+      const expectedURL6 = testURLBase + '/?query=id:notAUniProtID' + columnsURLPart
         + '&format=tab';
 
       url1.should.equal(expectedURL1);
